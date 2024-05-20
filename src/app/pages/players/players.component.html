@@ -1,14 +1,48 @@
 <div class="input-group my-4">
+  <!-- #someWord - template reference variable (template variable)
+  it allows to pass data from one part of the template in other parts of the same template
+  without the need to pass that data into the components contoller class
+  Template reference variable are always pointing to the element where they were attached to
+  and give access to that element's DOM structure and data
+  Here we use template reference variable to acces value of an input when user types a search string in to the UI
+  Then this value is passed to keyup binding
+  (keyup)="update(filter.value) - pass the value of template reference variable to the update method
+  on our components controller class
+  Evenet (click)="update(''); filter.value = ''" passes empty string to update method (which returns all the players
+  names)
+  and resets the value of templtate reference variable to an empty string as well. -->
   <input type="text" class="form-control" placeholder="Find Players by Name" #filter (keyup)="update(filter.value)">
   <button class="btn btn-light" type="button" (click)="update(''); filter.value = ''">Clear</button>
 </div>
+<!-- Event binding: keyup)="update(filter.value)"
+Property binding: [appOnlineStatus]="player.online"
+appOnlineStatus is a custom (own created) directive
+Angular will dynamically set this value to each player at runtime
+after extracting single player from players$ observable property
 
+Structural directives *ngIf & *ngFor
+*ngIf - add or remove DOM elements based on boolean value, it can be extended with else to handle the case when value is
+falsy. -->
+<!-- players$ are referenced here and passed to async pipe using the | (pipe symbol) -->
+<!-- async as players - optional syntax to assign the return value from the async pipe to a local variable players,
+which is then accessible in places of this DOM element and its chidren,
+this allows to reference async pipe only once and use the local variable everywhere else, if needed.
+Without it, referencing async pipe would be required every time the promise or observable is referenced from the controller -->
 <ul *ngIf="players$ | async as players; else loading" class="my-4">
+  <!-- *ngFor - iterate over items in the local variable players (an array).
+    For item of items allows to use item data as item.name etc. -->
+  <!-- Angular makes new instance of the directive for each player on the list,
+    so the element ref is also unique for each instance. -->
   <li *ngFor="let player of players" [appOnlineStatus]="player.online">
+    <!-- property binding [routerLink]="['/profile', player.id]"
+to set a dynamic URL for the anchor <a></a> tag - the player id and player name -->
     <a [routerLink]="['/profile', player.id]">{{ player.name }}</a>
   </li>
 </ul>
 
+<!-- Alternative template with template reference variable #loading, injected when structural directive *ngIf is false
+ng-template element is a special component coming with Angular. It allows to define a template,
+that is not rendered by default. The template needs a trigger to render itself, like "else loading" binding above -->
 <ng-template #loading>
   <p class="my-4">Loading&hellip;</p>
 </ng-template>
