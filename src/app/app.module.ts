@@ -26,7 +26,8 @@ import { AppComponent } from './app.component';
   exports: [],
 // providers property is an array of services -> all external code that will be available in this module's template through dependency injection
   providers: [
-    //ApiService,
+    // Providers can be declared with shorthand notation (name only):
+    // ApiService,
     // or provide for tokens and useClass for what to inject
     // { provide: ApiService, useClass ApiService }
   ],

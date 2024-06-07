@@ -8,7 +8,7 @@ import { Observable, of } from 'rxjs';
 export class PreloadingService implements PreloadingStrategy {
 
   //Angular will look for preload method to check which modules need preloading in the background
-  //Route definition is passes as a first argument,
+  //Route definition is passed as a first argument,
   //Second argument is a callback function that returns an observable
   //This is how Angular is told to preload the route  
   public preload(route: Route, fn: () => Observable<any>): Observable<any> {
